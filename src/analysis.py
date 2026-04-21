@@ -1,18 +1,17 @@
-"""Alignment tracking utilities for FA/DFA layers."""
+"""Alignment tracking utilities for FA layers."""
 
 from pathlib import Path
 
 import torch
 
 from .fa import FALayer
-from .dfa import DFALayer
 
 
 def enable_alignment_tracking(model):
-    """Turn on alignment tracking for all FA/DFA layers and clear history."""
+    """Turn on alignment tracking for all FA layers and clear history."""
     idx = 0
     for m in model.modules():
-        if isinstance(m, (FALayer, DFALayer)):
+        if isinstance(m, FALayer):
             m.track_alignment = True
             m.alignment_history = []
             if not m.layer_name:
@@ -21,17 +20,17 @@ def enable_alignment_tracking(model):
 
 
 def disable_alignment_tracking(model):
-    """Turn off alignment tracking for all FA/DFA layers."""
+    """Turn off alignment tracking for all FA layers."""
     for m in model.modules():
-        if isinstance(m, (FALayer, DFALayer)):
+        if isinstance(m, FALayer):
             m.track_alignment = False
 
 
 def collect_alignment_data(model):
-    """Return {layer_name: [angles]} for all tracked FA/DFA layers."""
+    """Return {layer_name: [angles]} for all tracked FA layers."""
     data = {}
     for m in model.modules():
-        if isinstance(m, (FALayer, DFALayer)) and m.layer_name:
+        if isinstance(m, FALayer) and m.layer_name:
             data[m.layer_name] = list(m.alignment_history)
     return data
 
@@ -46,7 +45,6 @@ def plot_alignment(all_results, save_path, ema_alpha=0.05):
     import matplotlib.pyplot as plt
     import numpy as np
 
-    # Collect all layer names across methods
     layer_names = sorted({ln for res in all_results.values() for ln in res})
     if not layer_names:
         print("No alignment data to plot.")
@@ -183,7 +181,6 @@ def verify_B_constancy(save_dir, method):
     method_dir = Path(save_dir) / method
     epoch0 = torch.load(method_dir / 'epoch_000.pt', map_location='cpu', weights_only=True)
 
-    # Find last epoch checkpoint
     ckpts = sorted(method_dir.glob('epoch_*.pt'))
     last_ckpt = [c for c in ckpts if c.name != 'epoch_000.pt' and c.name != 'best.pt'][-1]
     last = torch.load(last_ckpt, map_location='cpu', weights_only=True)

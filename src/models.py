@@ -2,7 +2,7 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
-from src.fa import FALayer
+from .fa import FALayer
 
 class CIFAR101(nn.Module):
     """ Arch 1 from Moskovitz et al.

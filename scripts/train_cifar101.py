@@ -7,7 +7,7 @@ Architecture (24×24×3 input):
   Conv2: 64→64, k5 → 64×6×6  → Pool(2) → 64×3×3
   FC1: 576→384 → FC2: 384→192 → FC3: 192→10
 
-Methods: BP, FA (Toeplitz), FA_toeplitz
+Methods: BP, FA (Random), FA_toeplitz, FA_uSF_init, FA_uSF_sn
 """
 
 import os
