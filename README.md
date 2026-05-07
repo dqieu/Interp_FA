@@ -1,6 +1,6 @@
 # Interpretability Analysis of Feedback Alignment on CNN
 
-Code accompanying the paper **"Interpretability Analysis of Feedback Alignment on CNN"** by Jake Lance and Larry Kieu. The paper PDF and LaTeX sources are in [`paper/`](paper/).
+Code accompanying the paper **"Interpretability Analysis of Feedback Alignment on CNN"** by Jake Lance and Larry Kieu.
 
 We compare five learning rules for a convolutional network trained on CIFAR-10, where the methods differ only in how the error signal is propagated backward:
 
